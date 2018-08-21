@@ -1,0 +1,7 @@
+- replaced functions return -2, -1, 1, 2 to represent different endings with an actual enumerator (just improves readability)
+- tried to move away from functions returning stuff they dont state.
+i.e. play returns whether the game ended or not. its more readable, to just have play() only do the playing.
+then have a seaparate function/property to check if game has ended
+- move some of the start of the play function to the init function (just feels like it should belong there
+- technically hitler is a fascist. so incrememented fascist count in hitler role and changed how it makes roles)
+- hitlerState wasnt actually doing anything other than hiding some hitler board attributes kind of behind a secondary class.

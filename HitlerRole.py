@@ -13,19 +13,13 @@ class Role(object):
 class Liberal(Role):
     def __init__(self):
         super(Liberal, self).__init__()
-        self.party_membership = "liberal"
+        self.is_liberal = True
         self.role = "liberal"
 
 
 class Fascist(Role):
-    def __init__(self):
+    def __init__(self, is_hitler):
         super(Fascist, self).__init__()
-        self.party_membership = "fascist"
-        self.role = "fascist"
-
-
-class Hitler(Role):
-    def __init__(self):
-        super(Hitler, self).__init__()
-        self.party_membership = "fascist"
-        self.role = "hitler"
+        self.is_liberal = False
+        self.role = "hitler" if is_hitler else "fascist"
+        self.is_hitler = is_hitler

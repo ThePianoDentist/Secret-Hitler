@@ -1,12 +1,12 @@
-from HitlerConstants import players, board
+from HitlerConstants import players, board, Teams
 from random import shuffle
 import HitlerPolicy
 import HitlerRole
+from HitlerPlayer import DumbPlayer
 
 
 class HitlerBoard(object):
-    def __init__(self, state, playercount):
-        self.state = state
+    def __init__(self, playercount):
         self.num_players = playercount
         self.num_liberals = players[self.num_players]["liberal"]
         self.num_fascists = players[self.num_players]["fascist"]
@@ -15,16 +15,45 @@ class HitlerBoard(object):
         self.policies = ([HitlerPolicy.Liberal()] * board["policy"]["liberal"] +
                          [HitlerPolicy.Fascist()] * board["policy"]["fascist"])
         shuffle(self.policies)
+        self.liberal_track = 0
+        self.fascist_track = 0
+        self.failed_votes = 0
+        self.president = None
+        self.ex_president = None
+        self.chosen_president = None
+        self.chancellor = None
+        self.most_recent_policy = None
+        self.last_votes = []
+        self.players = {Teams.FASCIST: [],
+                        Teams.LIBERAL: []}
+        self.veto = False
         self.discards = []
         self.previous = []
 
-    def shuffle_roles(self):
+    def shuffled_roles(self):
         all_roles = ([HitlerRole.Liberal()] * self.num_liberals +
-                     [HitlerRole.Fascist()] * self.num_fascists +
-                     [HitlerRole.Hitler()])
+                     [HitlerRole.Fascist(False)] * (self.num_fascists - 1) +
+                     [HitlerRole.Fascist(True)])
         shuffle(all_roles)
 
         return all_roles
+
+    def assign_players(self):
+        roles = self.shuffled_roles()
+
+        for i, role in enumerate(roles):
+            # name = raw_input("Player #%d's name?\n" % num)
+            name = "Bot %d" % i
+            player = DumbPlayer(i,
+                                name,
+                                role,
+                                self)
+
+            if player.is_hitler:
+                # Keep track of Hitler
+                self.hitler = player
+
+            self.players[Teams.LIBERAL].append(player) if role.is_liberal else self.players[Teams.FASCIST].append(player)
 
     def draw_policy(self, num):
         """
@@ -74,29 +103,13 @@ class HitlerBoard(object):
 
     def enact_policy(self, policy):
         if policy.type == "liberal":
-            self.state.liberal_track += 1
+            self.liberal_track += 1
         else:
-            self.state.fascist_track += 1
-            if self.fascist_track_actions[self.state.fascist_track - 1] is not None:
+            self.fascist_track += 1
+            if self.fascist_track_actions[self.fascist_track - 1] is not None:
                 return True
 
         return False
-
-
-class HitlerState(object):
-    """Storage object for game state"""
-    def __init__(self):
-        self.liberal_track = 0
-        self.fascist_track = 0
-        self.failed_votes = 0
-        self.president = None
-        self.ex_president = None
-        self.chosen_president = None
-        self.chancellor = None
-        self.most_recent_policy = None
-        self.last_votes = []
-        self.players = []
-        self.veto = False
 
 if __name__ == "__main__":
     h = HitlerBoard(5)

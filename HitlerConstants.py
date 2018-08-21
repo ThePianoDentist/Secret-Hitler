@@ -1,7 +1,22 @@
+from enum import Enum
+
+
+class Endings(Enum):
+    HITLER_CHANCELLOR = "Hitler Chancellor"
+    HITLER_DEAD = "Hitler Dead"
+    FASCIST_POLICY = "Fascist Policy"
+    LIBERAL_POLICY = "Liberal Policy"
+
+
+class Teams(Enum):
+    LIBERAL = "Liberal"
+    FASCIST = "Fascist"
+
+
 players = {
     5: {
         "liberal": 3,
-        "fascist": 1,
+        "fascist": 2,
         "track": [
             None,
             None,
@@ -13,7 +28,7 @@ players = {
     },
     6: {
         "liberal": 4,
-        "fascist": 1,
+        "fascist": 2,
         "track": [
             None,
             None,
@@ -25,7 +40,7 @@ players = {
     },
     7: {
         "liberal": 4,
-        "fascist": 2,
+        "fascist": 3,
         "track": [
             None,
             "inspect",
@@ -37,7 +52,7 @@ players = {
     },
     8: {
         "liberal": 5,
-        "fascist": 2,
+        "fascist": 3,
         "track": [
             None,
             "inspect",
@@ -49,7 +64,7 @@ players = {
     },
     9: {
         "liberal": 5,
-        "fascist": 3,
+        "fascist": 4,
         "track": [
             "inspect",
             "inspect",
@@ -61,7 +76,7 @@ players = {
     },
     10: {
         "liberal": 6,
-        "fascist": 3,
+        "fascist": 4,
         "track": [
             "inspect",
             "inspect",
